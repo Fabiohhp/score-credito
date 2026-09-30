@@ -1,0 +1,255 @@
+{
+  "data": {
+    "n_rows": 150000,
+    "default_rate": 0.0668,
+    "splits": {
+      "train": {
+        "n_rows": 105000,
+        "default_rate": 0.0668
+      },
+      "val": {
+        "n_rows": 22500,
+        "default_rate": 0.0668
+      },
+      "test": {
+        "n_rows": 22500,
+        "default_rate": 0.0668
+      }
+    },
+    "iv_train": {
+      "total_late": 1.34,
+      "revolving_util": 1.1185,
+      "late_90": 0.8421,
+      "late_30_59": 0.7257,
+      "late_60_89": 0.5737,
+      "age": 0.2446,
+      "income_per_person": 0.1135,
+      "debt_ratio": 0.0843,
+      "monthly_income": 0.0784,
+      "open_credit_lines": 0.0719,
+      "real_estate_loans": 0.0627,
+      "late_special_code": 0.0404,
+      "monthly_debt": 0.0398,
+      "dependents": 0.0356,
+      "income_missing": 0.0118
+    }
+  },
+  "logistic": {
+    "features": [
+      "revolving_util",
+      "age",
+      "debt_ratio",
+      "late_30_59",
+      "late_60_89",
+      "late_90",
+      "real_estate_loans"
+    ],
+    "train": {
+      "auc": 0.8565,
+      "gini": 0.713,
+      "ks": 0.5567
+    },
+    "val": {
+      "auc": 0.8614,
+      "gini": 0.7227,
+      "ks": 0.5649
+    },
+    "scaling": {
+      "base_score": 600,
+      "base_odds": 50,
+      "pdo": 20
+    }
+  },
+  "lightgbm": {
+    "features": [
+      "revolving_util",
+      "age",
+      "late_30_59",
+      "late_60_89",
+      "late_90",
+      "debt_ratio",
+      "monthly_income",
+      "open_credit_lines",
+      "real_estate_loans",
+      "dependents",
+      "income_missing",
+      "late_special_code",
+      "total_late",
+      "monthly_debt",
+      "income_per_person"
+    ],
+    "params": {
+      "num_leaves": 15,
+      "min_child_samples": 400,
+      "n_trees": 242,
+      "learning_rate": 0.03,
+      "monotone": true
+    },
+    "train": {
+      "auc": 0.8726,
+      "gini": 0.7452,
+      "ks": 0.5889
+    },
+    "val": {
+      "auc": 0.8707,
+      "gini": 0.7415,
+      "ks": 0.5898
+    },
+    "val_brier": 0.04867,
+    "val_same_7_features": {
+      "auc": 0.8688,
+      "gini": 0.7376,
+      "ks": 0.5838
+    }
+  },
+  "cutoff": {
+    "set": "val",
+    "assumptions": {
+      "ticket": 10000.0,
+      "margin_rate": 0.15,
+      "ead_rate": 0.8,
+      "lgd": 0.6,
+      "breakeven_pd": 0.2381
+    },
+    "optimal_cutoff": 0.24,
+    "optimal_min_score": 520,
+    "near_optimal_range": [
+      0.145,
+      0.37
+    ],
+    "policies": {
+      "approve_all": {
+        "cutoff": 1.0,
+        "aprovação": 1.0,
+        "aprovados": 22500,
+        "bons_aprovados": 20996,
+        "maus_aprovados": 1504,
+        "inadimplência_carteira": 0.0668,
+        "bons_recusados": 0,
+        "margem": 31494000.0,
+        "perdas": 7219200.0,
+        "lucro": 24274800.0
+      },
+      "cutoff_050": {
+        "cutoff": 0.5,
+        "aprovação": 0.9764,
+        "aprovados": 21970,
+        "bons_aprovados": 20775,
+        "maus_aprovados": 1195,
+        "inadimplência_carteira": 0.0544,
+        "bons_recusados": 221,
+        "margem": 31162500.0,
+        "perdas": 5736000.0,
+        "lucro": 25426500.0
+      },
+      "optimal_lightgbm": {
+        "cutoff": 0.24,
+        "aprovação": 0.9262,
+        "aprovados": 20839.0,
+        "bons_aprovados": 20038.0,
+        "maus_aprovados": 801.0,
+        "inadimplência_carteira": 0.0384,
+        "bons_recusados": 958.0,
+        "margem": 30057000.0,
+        "perdas": 3844800.0,
+        "lucro": 26212200.0
+      },
+      "optimal_scorecard": {
+        "cutoff": 0.19,
+        "aprovação": 0.927,
+        "inadimplência_carteira": 0.0393,
+        "maus_aprovados": 820.0,
+        "bons_recusados": 959.0,
+        "margem": 30055500.0,
+        "perdas": 3936000.0,
+        "lucro": 26119500.0
+      }
+    },
+    "losses_avoided_vs_050": 1891200.0,
+    "margin_lost_vs_050": 1105500.0,
+    "profit_gain_vs_050": 785700.0,
+    "profit_gain_vs_050_per_10k": 349200.0
+  },
+  "explainability": {
+    "set": "val",
+    "n_refused": 1661,
+    "top1_reason_share": {
+      "Histórico de atrasos": 0.9109,
+      "Uso do crédito rotativo": 0.0861,
+      "Comprometimento com dívidas": 0.0018,
+      "Linhas de crédito e financiamentos": 0.0012
+    },
+    "top1_agreement_with_scorecard": 0.6767,
+    "lgbm_top1_in_scorecard_top3": 0.9988,
+    "age_in_reasons_share": 0.4521
+  },
+  "test": {
+    "n_rows": 22500,
+    "cutoff": 0.24,
+    "logistic": {
+      "auc": 0.8618,
+      "gini": 0.7237,
+      "ks": 0.5693
+    },
+    "lightgbm": {
+      "auc": 0.8715,
+      "gini": 0.743,
+      "ks": 0.5851
+    },
+    "lightgbm_brier": 0.04845,
+    "bad_share_lowest_decile": 0.5605,
+    "policies": {
+      "approve_all": {
+        "cutoff": 1.0,
+        "aprovação": 1.0,
+        "aprovados": 22500.0,
+        "bons_aprovados": 20996.0,
+        "maus_aprovados": 1504.0,
+        "inadimplência_carteira": 0.0668,
+        "bons_recusados": 0.0,
+        "margem": 31494000.0,
+        "perdas": 7219200.0,
+        "lucro": 24274800.0
+      },
+      "cutoff_050": {
+        "cutoff": 0.5,
+        "aprovação": 0.9781,
+        "aprovados": 22007.0,
+        "bons_aprovados": 20805.0,
+        "maus_aprovados": 1202.0,
+        "inadimplência_carteira": 0.0546,
+        "bons_recusados": 191.0,
+        "margem": 31207500.0,
+        "perdas": 5769600.0,
+        "lucro": 25437900.0
+      },
+      "chosen": {
+        "cutoff": 0.24,
+        "aprovação": 0.9253,
+        "aprovados": 20819.0,
+        "bons_aprovados": 20027.0,
+        "maus_aprovados": 792.0,
+        "inadimplência_carteira": 0.038,
+        "bons_recusados": 969.0,
+        "margem": 30040500.0,
+        "perdas": 3801600.0,
+        "lucro": 26238900.0
+      }
+    },
+    "losses_avoided_vs_050": 1968000.0,
+    "losses_avoided_pct": 0.3411,
+    "margin_lost_vs_050": 1167000.0,
+    "margin_lost_pct": 0.0374,
+    "profit_gain_vs_050": 801000.0,
+    "profit_gain_pct": 0.0315,
+    "profit_gain_vs_050_per_10k": 356000.0,
+    "test_optimal_cutoff_reference": 0.2,
+    "n_refused": 1681,
+    "top1_reason_share": {
+      "Histórico de atrasos": 0.8798,
+      "Uso do crédito rotativo": 0.1154,
+      "Linhas de crédito e financiamentos": 0.0024,
+      "Comprometimento com dívidas": 0.0024
+    }
+  }
+}
