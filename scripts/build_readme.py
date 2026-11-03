@@ -131,6 +131,8 @@ Requer [uv](https://docs.astral.sh/uv/) e Python 3.12.
    ```
 
 **Stack:** pandas, scikit-learn, LightGBM, SHAP, matplotlib/seaborn, pytest.
+
+**Licença:** código sob a [licença MIT](LICENSE). Os dados pertencem às fontes e seguem os termos delas.
 """
 
 (ROOT / "README.md").write_text(readme)
